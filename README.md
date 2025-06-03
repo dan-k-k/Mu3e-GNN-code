@@ -36,17 +36,20 @@ This repository contains the full process of developing a Graph Neural Network (
    ```bash
    git clone https://github.com/dan-k-k/Mu3e-GNN-code.git
    cd Mu3e-GNN-code
+   ```
 
 2. Create virtual environment (e.g.):
-   python3 -m venv .venvMu3eGNN
-   source .venvMu3eGNN/bin/activate
+   ```python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
 3. Install requirements:
-   pip install -r requirements.txt
+   ```pip install -r requirements.txt
+   ```
 
-4. Generate graphs through the `Mu3e Graph generation.ipynb` notebook
+4. Generate graphs through the `Mu3e_Graph_generation.ipynb` notebook
 
-5. Train the model and view results using the `Mu3e GNN & Results.ipynb` notebook
+5. Train the model and view results using the `Mu3e_GNN_and_Results.ipynb` notebook
 
 ## Report overview:
 

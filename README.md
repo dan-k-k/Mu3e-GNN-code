@@ -23,7 +23,7 @@ Monte Carlo simulations accurately model the expected decay particles' hits left
     width="30%"
   />
   <img
-    src="images/nhitsperframebeam2.png"
+    src="images/nhitssperframebeam2.png"
     alt="Number of hits per frame"
     width="30%"
   />

@@ -123,6 +123,6 @@ Comparing the full GNN method efficiencies for all datasets with the official st
   <img
     src="images/comparisoneffCP2.png"
     alt="Efficiencies with Clopper-Pearson one-sigma Errors"
-    width="35%"
+    width="42%"
   />
 </p>

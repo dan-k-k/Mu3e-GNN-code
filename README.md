@@ -104,19 +104,18 @@ There is a trade-off between purity and efficiency. More real and fake graphs ar
 
 For frames with more hits, the model's performance is worse as there is higher chance of nearby hits generating fakes that closely resemble real tracks. For frames with equal hits, the beam set tends to have worse purity due to individual Michel decays with uniform spatial distribution as opposed to for example signal requiring all electrons to conserve momentum. 
 
-<div style="text-align:center;">
+<p float="center">
   <img
     src="images/purityvsnhits2.png"
-    alt="Purity vs # Hits"
+    alt="Purity against the Number of Hits per Frame"
     width="28%"
-    style="margin-right:1%;"
   />
   <img
     src="images/purityvsngraphs2.png"
-    alt="Purity vs # Generated Graphs"
+    alt="Purity against the Number of Generated Graphs per Frame"
     width="28%"
   />
-</div>
+</p>
 
 Comparing the full GNN method efficiencies for all datasets with the official standard reconstruction.
 

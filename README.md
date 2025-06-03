@@ -16,19 +16,19 @@ This repository contains the full process of developing a Graph Neural Network (
 - Implements a six‐hit graph-building procedure with loose geometric and kinematic constraints, pruning away most combinatorial (fake) graphs.
 - Defines and trains a three-class GNN (electron vs. positron vs. fake) using PyTorch Geometric, including custom message-passing layers, batch-norm, pooling, and truth data concatenation.
 
-- Includes routines for:
-  - Loading Mu3e MC hits (via uproot) and constructing node/edge/global features for each six‐hit candidate graph.
-  - Normalising all graph features using global means/σ from the signal set.
-  - Splitting into train/val/test, early-stopping on validation loss, and saving the best model.
+- Process:
+  - Load Mu3e MC hits and construct node/edge/global features for each six‐hit candidate graph.
+  - Normalise all graph features using global means/σ from the signal set.
+  - Split into train/val/test, early-stopping on validation loss, and save the best model.
 
-- Provides evaluation code to:
+- Evaluation:
   - Compute per-class ROC/AUC, purity, efficiency, and Clopper–Pearson errors.
   - Deduplicate true (real) graphs due to overlapping Mu3e detection ladders.
   - Perform greedy overlap-removal (hit-sharing) among predicted real graphs to improve purity at the cost of efficiency.
 
 - Helper scripts:
-  - Creating Pandas DataFrames from deduplicated graphs (with model predictions and all truth/feature columns) for downstream analysis.
-  - Plotting (with Poisson error bars) confidence histograms, purity and efficiency vs. truth info and hit-counts per frame.
+  - Create Pandas DataFrames from deduplicated graphs (with model predictions and all truth/feature information) for analysis.
+  - Plot confidence histograms, purity and efficiency vs. truth info and hit-counts per frame.
 
 ## Report overview:
 
@@ -104,15 +104,15 @@ There is a trade-off between purity and efficiency. More real and fake graphs ar
 
 For frames with more hits, the model's performance is worse as there is higher chance of nearby hits generating fakes that closely resemble real tracks. For frames with equal hits, the beam set tends to have worse purity due to individual Michel decays with uniform spatial distribution as opposed to for example signal requiring all electrons to conserve momentum. 
 
-<p float="center">
+<p align="center">
   <img
     src="images/purityvsnhits2.png"
-    alt="Purity against the Number of Hits per Frame"
+    alt="Purity vs. #Hits per Frame"
     width="28%"
   />
   <img
     src="images/purityvsngraphs2.png"
-    alt="Purity against the Number of Generated Graphs per Frame"
+    alt="Purity vs. #Generated Graphs"
     width="28%"
   />
 </p>

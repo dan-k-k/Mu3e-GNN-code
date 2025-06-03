@@ -38,12 +38,12 @@ Monte Carlo simulations accurately model the expected decay particles' hits left
   <img
     src="images/nparticlesperframebeam2.png"
     alt="Number of particles per frame"
-    width="28%"
+    width="26%"
   />
   <img
     src="images/nhitssperframebeam2.png"
     alt="Number of hits per frame"
-    width="35%"
+    width="32%"
   />
 </p>
 
@@ -73,7 +73,7 @@ The model returns outputs for each class on test graphs (for signal, this is 20%
   <img
     src="images/GNNoutputsignal1.png"
     alt="GNN Output: Signal"
-    width="35%"
+    width="32%"
   />
 </p>
 
@@ -83,12 +83,12 @@ The model rarely misclassifies electrons as positrons, and vice versa.
   <img
     src="images/electronseparationsignal.png"
     alt="Electron Separation: Signal"
-    width="28%"
+    width="31%"
   />
   <img
     src="images/electronseparationIC.png"
     alt="Electron Separation: Internal Conversion"
-    width="28%"
+    width="31%"
   />
 </p>
 
@@ -98,7 +98,7 @@ There is a trade-off between purity and efficiency. More real and fake graphs ar
   <img
     src="images/purityeffsignalelecpos.png"
     alt="Purity against Efficiency: Signal"
-    width="35%"
+    width="32%"
   />
 </p>
 
@@ -123,6 +123,6 @@ Comparing the full GNN method efficiencies for all datasets with the official st
   <img
     src="images/comparisoneffCP2.png"
     alt="Efficiencies with Clopper-Pearson one-sigma Errors"
-    width="28%"
+    width="35%"
   />
 </p>

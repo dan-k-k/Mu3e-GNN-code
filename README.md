@@ -39,12 +39,14 @@ This repository contains the full process of developing a Graph Neural Network (
    ```
 
 2. Create virtual environment (e.g.):
-   ```python3 -m venv .venv
+   ```
+   python3 -m venv .venv
    source .venv/bin/activate
    ```
 
 3. Install requirements:
-   ```pip install -r requirements.txt
+   ```
+   pip install -r requirements.txt
    ```
 
 4. Generate graphs through the `Mu3e_Graph_generation.ipynb` notebook

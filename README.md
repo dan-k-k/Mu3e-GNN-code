@@ -1,13 +1,13 @@
 # Graph Neural Networks for Track Finding in Mu3e
 > **Dan King**  
 
-The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lepton-flavour-violating decay μ⁺ → e⁺ e⁺ e⁻ (signal) with the goal of excluding branching fractions above \(10^-16\) at the 90% confidence level. This decay is essentially forbidden by the Standard Model (SM) and any observation would provide evidence of new physics. The challenge faced by Mu3e software is a loss in the number of signal decays seen (i.e. a low efficiency) when applying algorithms that purify signal detection. An alternative approach with a Graph Neural Network (GNN) finds efficiencies similar to the official standard reconstruction algorithm. However, due to the sensitivity of the experiment, the GNN purity of 94.5\% (i.e. ~5% of predictions are not true electrons) on the beam simulation currently does not allow confident observation if tracks were to be combined into single decay vertices. More information on the experiment is available in the [Technical design of the phase I Mu3e experiment](https://arxiv.org/abs/2009.11690).
+The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lepton-flavour-violating decay μ⁺ → e⁺ e⁺ e⁻ (signal) with the goal of excluding branching fractions above \(10^-16\) at the 90% confidence level. This decay is essentially forbidden by the Standard Model (SM) and any observation would provide evidence of new physics. The challenge faced by Mu3e software is a loss in the number of signal decays seen (i.e. a low efficiency) when applying algorithms that purify signal detection. An alternative approach with a Graph Neural Network (GNN) finds efficiencies similar to the official standard reconstruction algorithm. However, due to the sensitivity of the experiment, the GNN purity of 94.5\% (i.e. ~5% of predictions are not real graphs) on the beam simulation currently does not allow confident observation if tracks were to be combined into single decay vertices. More information on the experiment is available in the [Technical design of the phase I Mu3e experiment](https://arxiv.org/abs/2009.11690).
 
 <p align="center">
   <img
     src="images/Design_Recurling_tracks.png"
     alt="Mu3e TDR Detector"
-    width="80%"
+    width="73%"
   />
 </p>
 
@@ -30,11 +30,29 @@ This repository contains the full process of developing a Graph Neural Network (
   - Create Pandas DataFrames from deduplicated graphs (with model predictions and all truth/feature information) for analysis.
   - Plot confidence histograms, purity and efficiency vs. truth info and hit-counts per frame.
 
+## How to run
+
+1. Clone:  
+   ```bash
+   git clone https://github.com/dan-k-k/Mu3e-GNN-code.git
+   cd Mu3e-GNN-code
+
+2. Create virtual environment (e.g.):
+   python3 -m venv .venvMu3eGNN
+   source .venvMu3eGNN/bin/activate
+
+3. Install requirements:
+   pip install -r requirements.txt
+
+4. Generate graphs through the `Mu3e Graph generation.ipynb` notebook
+
+5. Train the model and view results using the `Mu3e GNN & Results.ipynb` notebook
+
 ## Report overview:
 
 Monte Carlo simulations accurately model the expected decay particles' hits left in the detector, made up of frames: a period of time long enough to capture all hits from the decay. The Graph Neural Network approach outlined in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
 
-<p float="center">
+<p align="center">
   <img
     src="images/nparticlesperframebeam2.png"
     alt="Number of particles per frame"
@@ -77,9 +95,9 @@ The model returns outputs for each class on test graphs (for signal, this is 20%
   />
 </p>
 
-The model rarely misclassifies electrons as positrons, and vice versa.
+Electron/positron misclassification is negligible.
 
-<p float="center">
+<p align="center">
   <img
     src="images/electronseparationsignal.png"
     alt="Electron Separation: Signal"
@@ -107,12 +125,12 @@ For frames with more hits, the model's performance is worse as there is higher c
 <p align="center">
   <img
     src="images/purityvsnhits2.png"
-    alt="Purity vs. #Hits per Frame"
+    alt="Purity against the Number of Hits per Frame"
     width="28%"
   />
   <img
     src="images/purityvsngraphs2.png"
-    alt="Purity vs. #Generated Graphs"
+    alt="Purity against the Number of Generated Graphs per Frame"
     width="28%"
   />
 </p>

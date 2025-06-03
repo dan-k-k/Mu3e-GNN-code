@@ -16,11 +16,11 @@ The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lept
 
 Monte Carlo simulations accurately model the expected decay particles' hits left in the detector. The Graph Neural Network approach outlined in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
 
-<p float="left">
+<p float="center">
   <img
     src="images/nparticlesperframebeam2.png"
     alt="Number of particles per frame"
-    width="25%"
+    width="30%"
   />
   <img
     src="images/nhitssperframebeam2.png"

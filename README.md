@@ -38,7 +38,7 @@ This repository contains the full process of developing a Graph Neural Network (
    cd Mu3e-GNN-code
    ```
 
-2. Create virtual environment (e.g.):
+2. Create virtual environment:
    ```
    python3 -m venv .venv
    source .venv/bin/activate

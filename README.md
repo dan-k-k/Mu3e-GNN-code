@@ -1,7 +1,7 @@
 # Graph Neural Networks for Track Finding in Mu3e
 > **Dan King**  
 
-The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lepton-flavour-violating decay μ⁺ → e⁺ e⁺ e⁻ (signal) with the goal of excluding branching fractions above \(10^-16\) at the 90% confidence level. This decay is essentially forbidden by the Standard Model (SM) and any observation would provide evidence of new physics. The challenge faced by Mu3e software is a loss in the number of signal decays seen (i.e. a lowered efficiency) when applying algorithms that purify signal detection. An alternative approach with a Graph Neural Network (GNN) finds efficiencies similar to the official standard reconstruction algorithm. More information on the experiment is available in the [Technical design of the phase I Mu3e experiment](https://arxiv.org/abs/2009.11690) by the Mu3e collaboration.
+The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lepton-flavour-violating decay μ⁺ → e⁺ e⁺ e⁻ (signal) with the goal of excluding branching fractions above \(10^-16\) at the 90% confidence level. This decay is essentially forbidden by the Standard Model (SM) and any observation would provide evidence of new physics. The experiment faces a loss in the number of observed MC signal decays (i.e. a lowered efficiency) when applying cuts that purify signal detection. An alternative approach involves a Graph Neural Network (GNN) and finds signal and beam efficiencies similar to the official standard reconstruction algorithm. More information on the experiment is available in the [Technical design of the phase I Mu3e experiment](https://arxiv.org/abs/2009.11690) by the Mu3e collaboration.
 
 <p align="center">
   <img
@@ -11,7 +11,7 @@ The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lept
   />
 </p>
 
-This repository contains the full process of developing a Graph Neural Network (GNN) model for the Mu3e experiment:
+This repository contains the full implementation of a Graph Neural Network (GNN) model for the Mu3e experiment:
 
 - Implements a six‐hit graph-building procedure with loose geometric and kinematic constraints, pruning away most combinatorial (fake) graphs.
 - Defines and trains a three-class GNN (electron vs. positron vs. fake) using PyTorch Geometric, including custom message-passing layers, batch-norm, pooling, and truth data concatenation.
@@ -55,7 +55,7 @@ This repository contains the full process of developing a Graph Neural Network (
 
 ## Report overview:
 
-Monte Carlo simulations accurately model the expected decay particles' hits left in the detector, made up of frames: a period of time long enough to capture all hits from the decay. The Graph Neural Network approach outlined in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
+Monte Carlo simulations accurately model the expected decay particles' hits left in the detector, made up of frames: a period of time long enough to capture all hits from the decay. The Graph Neural Network approach contained in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
 
 <p align="center">
   <img
@@ -70,7 +70,7 @@ Monte Carlo simulations accurately model the expected decay particles' hits left
   />
 </p>
 
-A cheap constraints algorithm for graph generation greatly reduces processing time, essentially focusing on graphs that closely resemble true particle tracks. 
+A cheap constraints algorithm for graph generation greatly reduces processing time, essentially focusing on graphs that closest resemble true particle tracks. 
 
 <p align="center">
   <img
@@ -125,7 +125,7 @@ There is a trade-off between purity and efficiency. More real and fake graphs ar
   />
 </p>
 
-For frames with more hits, the model's performance is worse as there is higher chance of nearby hits generating fakes that closely resemble real tracks. For frames with equal hits, the beam set tends to have worse purity due to individual Michel decays with uniform spatial distribution as opposed to for example signal requiring all electrons to conserve momentum. 
+For frames with more hits, the model's performance is worse as there is higher chance of nearby hits generating fakes that closely resemble real tracks. For frames with equal hits, the beam set tends to have worse purity due to individual Michel decay events with uniform spatial distributions as opposed to, for example, signal, requiring all electrons to conserve momentum. 
 
 <p align="center">
   <img
@@ -140,7 +140,7 @@ For frames with more hits, the model's performance is worse as there is higher c
   />
 </p>
 
-Comparing the full GNN method efficiencies for all datasets with the official standard reconstruction.
+Comparing the full GNN method efficiencies for all datasets with the official standard reconstruction and Clopper-Pearson one-sigma errors.
 
 <p align="center">
   <img

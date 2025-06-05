@@ -144,7 +144,7 @@ For frames with more hits, the model's performance is worse as there is higher c
   />
 </p>
 
-Comparing the full GNN method efficiencies for all datasets with the official standard reconstruction and Clopper-Pearson one-sigma errors (ableit with a worse purity of 94.5%).
+Comparing the full GNN method efficiencies for all datasets with the official standard reconstruction and Clopper-Pearson one-sigma errors (with a GNN-approach purity of 94.5%, while the official standard reconstruction is considered pure).
 
 <p align="center">
   <img

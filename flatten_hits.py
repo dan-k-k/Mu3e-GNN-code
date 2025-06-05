@@ -70,7 +70,7 @@ def flatten_hits(df):
     return flat_hits_df
 
 # Finds the (unique) hits from all triplets. FLAG the first hit! not used for 6hit graphs
-# useful for 8hit graphs, but the following code is not used now.
+# useful for 8hit graphs, but the following code is not used for now.
 def flatten_hits_with_first_flag(df, first_hit_lookup):
     individual_hits = []
     # Iterate over each row (triplet) in the DataFrame.
@@ -161,8 +161,6 @@ def dedupe_hits(df):
 # Assign layers to the hits
 # information is based on Table 7.1 in the TDR. 
 # i'm unsure exactly if there are gaps between layers along z
-# and may have led to problems when deciding if a hit is forward  
-# recurling when finding true and reco tids for the final efficiency comparison.
 
 def assign_layer(row):
     x, y, z = row['x'], row['y'], row['z']

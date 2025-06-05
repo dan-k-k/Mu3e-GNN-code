@@ -386,7 +386,7 @@ def build_and_validate_tracks(
             if not pitch_matched:
                 continue
             
-            # Optionally, select the first matching center pair and pitch pair.
+            # Select the first matching center pair and pitch pair.
             selected_centers, selected_radii = center_matched_pairs[0][0], center_matched_pairs[0][1]
             selected_pitches = []
             for i in range(len(valid_pitches)):

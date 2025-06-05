@@ -14,7 +14,7 @@ from typing import List, Dict, Any, Optional, Union
 #       all_hits_zero_tid is needed to completely discard cases where all 6 hits have mc_tid=0,
 #       as this can sometimes be a truth track from sixhit_tracks_df but with no information.
 #       and we do not want these to be saved as fakes. any future validated track with at least one
-#       mc_tid=0 can now be assumed fake, then this simplifies the method for finding matching mc_tids.
+#       mc_tid=0 is fake, then this simplifies the method for finding matching mc_tids.
 
 def all_hits_zero_tid(
     track_hits: List[Dict[str, Any]],

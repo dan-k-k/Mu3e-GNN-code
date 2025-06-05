@@ -5,10 +5,8 @@ import torch.nn.functional as F
 from torch_geometric.data import Data
 import pandas as pd
 
-# ──────────────────────────────────────────────────────────────────────────────
-# 1) A fixed map from layer‐string → index (0..7). Used for one‐hot encoding. 
-# the GNN can use this to easily relate graph features with specific layers.
-# ──────────────────────────────────────────────────────────────────────────────
+# A fixed map from layer‐string → index (0 to 7). Used for one‐hot encoding. 
+ 
 layer_map = {
     "1":  0,
     "2":  1,
@@ -20,10 +18,7 @@ layer_map = {
     "3-": 7,
 }
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# 2) Edge‐and‐geometry helper functions
-# ──────────────────────────────────────────────────────────────────────────────
+# Edge‐and‐geometry helper functions
 
 def compute_lambda(hit1: dict, hit2: dict) -> float:
     """
@@ -180,10 +175,7 @@ def signed_area(hits: list) -> float:
     area = 0.5 * np.sum(arr_x * arr_yp - arr_xp * arr_y)
     return area
 
-
-# ──────────────────────────────────────────────────────────────────────────────
 # 3) “Constraint‐vector” extraction for one 6‐hit track
-# ──────────────────────────────────────────────────────────────────────────────
 
 def extract_constraints6(track: dict) -> np.ndarray:
     """
@@ -237,10 +229,7 @@ def extract_geom_features_from_df6(df: "pd.DataFrame") -> np.ndarray:
         feat_list.append(extract_constraints6(row))
     return np.vstack(feat_list)
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# 4) “Global edge‐feature stats” from a list of tracks
-# ──────────────────────────────────────────────────────────────────────────────
+# “Global edge‐feature stats” from a list of tracks
 
 def compute_global_edge_features_stats6(tracks: list) -> dict:
     """
@@ -311,10 +300,7 @@ def compute_global_edge_features_stats6(tracks: list) -> dict:
 
     return results
 
-
-# ──────────────────────────────────────────────────────────────────────────────
 # 5) Convert a single 6‐hit “track” → torch_geometric.data.Data
-# ──────────────────────────────────────────────────────────────────────────────
 
 def track_to_graph6(
     track: dict,
@@ -438,10 +424,7 @@ def track_to_graph6(
 
     return data
 
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Expose only these names if someone does `from graph_utils_6hit import *`
-# ──────────────────────────────────────────────────────────────────────────────
+# Expose only these names if someone does `from graphcreation import *`
 __all__ = [
     "layer_map",
     "compute_lambda",

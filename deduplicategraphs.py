@@ -3,7 +3,6 @@ import torch
 import torch.nn.functional as F
 from torch_geometric.data import DataLoader, Batch
 
-# only needs to be done for real graphs with labels 0 and 1
 def compute_real_graph_preds(graphs, model, device):
     model.eval()
     with torch.no_grad():
@@ -20,9 +19,9 @@ def compute_real_graph_preds(graphs, model, device):
 def compute_all_graph_preds(graph_list, model, device, batch_size=128):
     """
     For a list of PyG graph objects `graph_list`, run `model` on ALL of them in
-    batched fashion. Return two things:
+    batched fashion. Return:
       - `all_probs`: a single NumPy array of shape [N_graphs, num_classes]
-      - `all_labels`: a single NumPy array of shape [N_graphs] (the ground‐truth label)
+      - `all_labels`: a single NumPy array of shape [N_graphs] (the ground-truth label)
     
     Also attach `.probs` (Tensor) to each graph object in graph_list
     """

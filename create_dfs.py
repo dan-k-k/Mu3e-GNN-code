@@ -8,7 +8,7 @@ def create_df_from_graphs(graph_list):
 
     data = []
     for graph in graph_list:
-        # Extract the raw graph attributes (assumed to be a 1x24 tensor).
+        # Extract the raw graph attributes.
         raw_attr = graph.raw_graph_attr.squeeze(0).tolist()
         turning_angles = raw_attr[0:4]  # Four turning angles
         total_turn_angle    = raw_attr[4]
@@ -18,7 +18,7 @@ def create_df_from_graphs(graph_list):
         avg_step_length_val = raw_attr[8]
         signed_area_val     = raw_attr[9]
 
-        # Extract local edge attributes, if present.
+        # Extract local edge attributes.
         if graph.edge_attr is not None and graph.edge_attr.numel() > 0:
             local_angles      = graph.edge_attr[:, 0].tolist()
             norm_distances    = graph.edge_attr[:, 1].tolist()
@@ -41,7 +41,7 @@ def create_df_from_graphs(graph_list):
         mc_p_val  = graph.mc_p.item()    if hasattr(graph, 'mc_p')    else None
         mc_type_val = graph.mc_type.item() if hasattr(graph, 'mc_type') else None
 
-        # ─── New: extract the three MC angles ───────────────────────────
+        # Extract the three MC angles
         mc_phi_val   = graph.mc_phi.item()   if hasattr(graph, 'mc_phi')   else None
         mc_theta_val = graph.mc_theta.item() if hasattr(graph, 'mc_theta') else None
         mc_lam_val   = graph.mc_lam.item()   if hasattr(graph, 'mc_lam')   else None
@@ -51,7 +51,7 @@ def create_df_from_graphs(graph_list):
             'label': true_label,
             'pred_label': graph.pred_label,
             'pred_confidence': graph.pred_confidence,
-            'turning_angles': turning_angles,  # updated graph attributes
+            'turning_angles': turning_angles, 
             'total_turn_angle': total_turn_angle,
             'chord_length': chord_length_val,
             'path_length': path_length_val,

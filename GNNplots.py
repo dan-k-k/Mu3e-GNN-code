@@ -223,7 +223,7 @@ def plot_confidence_histograms_multi(dataset_label, elec_results, pos_results, f
     Plots a histogram (with log-scaled density) for electrons, positrons, and fakes
     for a given dataset.
     
-    For fakes, we plot 1 - predicted_probability (as in your original code).
+    For fakes, I plot 1 - predicted_probability (as in your original code).
     """
     # Convert outputs to arrays
     e_y_true  = np.array(elec_results['y_true'])

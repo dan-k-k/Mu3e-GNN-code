@@ -18,7 +18,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # def evaluate using a threshold
 # the 'optimal' threshold is calculated from the validation set where the F1 score is maximised ie. the product of purity and efficiency is maximised. 
-# and must not be found for the test set (must be treated as unseen). i have commented out plots as these are shown overlapping later in the GNN notebook.
+# and must not be found for the test set (must be treated as unseen).
 def evaluate_for_class(data_loader, class_index, dataset_name="Dataset", num_thresholds=1000, fixed_threshold=None):
     y_true = []
     y_probs = []
@@ -192,7 +192,7 @@ def evaluate_class_with_argmax(data_loader, class_index):
     
     return y_true, y_pred, cm, cr
 
-#before overlap removal
+# before overlap removal
 def efficiency_with_CP(y_true, y_pred, label="dataset", alpha=0.3173):
     """
     Print efficiency and its 1‑σ Clopper–Pearson interval.
@@ -222,7 +222,7 @@ def efficiency_with_CP(y_true, y_pred, label="dataset", alpha=0.3173):
     print(f"{label:20s}  efficiency = {eff:.6f}  (+{hi-eff:.6f} / -{eff-lo:.6f})")
     return {'efficiency': eff, 'lower_bound': lo, 'upper_bound': hi, 'purity': pur, 'accuracy': acc}
 
-#after overlap removal
+# after overlap removal
 def compute_OR_metrics(original_graphs, survivors, dataset_name):
     # 1) Count original real graphs in the deduplicated set.
     N_real_orig = sum(1 for g in original_graphs if g.label.item() in [0, 1])
@@ -264,7 +264,7 @@ def compute_OR_metrics(original_graphs, survivors, dataset_name):
         upper_bound = 0.0
         print(f"{dataset_name} - No valid data to compute confidence intervals.")
 
-    # 4) Compute final accuracy (optional for other metrics).
+    # 4) Compute final accuracy.
     survivor_dict = {id(g): g for g in survivors}
     correct_count = 0
     total_count = len(original_graphs)

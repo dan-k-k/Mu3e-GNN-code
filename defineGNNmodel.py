@@ -63,7 +63,7 @@ class GCNMultiClass(nn.Module):
         return self.fc(combined)
 
 
-# Define a GINE model that also uses extra graph-level features.
+# Define an alternative GINE model that also uses extra graph-level features.
 class GINEMultiClass(nn.Module):
     def __init__(self, in_channels, hidden_channels, edge_channels, extra_features):
         """

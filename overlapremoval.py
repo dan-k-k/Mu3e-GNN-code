@@ -3,7 +3,7 @@ import torch
 import torch.nn.functional as F
 from torch_geometric.data import Batch
 
-def perform_overlap_removal(graph_list, model, dataset_name=""):
+def perform_overlap_removal(graph_list, dataset_name=""):
     removed_true_real = []
     removed_true_fake = []
     print(f"\n=== Performing Overlap Removal for Dataset: {dataset_name} ===")
@@ -31,29 +31,22 @@ def perform_overlap_removal(graph_list, model, dataset_name=""):
         else:
             removal_log["original"]["fake"] += 1
 
-    predicted_graphs = []
-    model.eval()
+    # Count original classes based on true labels
+    for graph in graph_list:
+        if graph.label.item() in [0, 1]:
+            removal_log["original"]["real"] += 1
+        else:
+            removal_log["original"]["fake"] += 1
 
-    # 2) Predict each graph’s label and confidence
-    with torch.no_grad():
-        for graph in graph_list:
-            batched_graph = Batch.from_data_list([graph])
-            output = model(batched_graph)  # shape: [1, num_classes]
-            probs = F.softmax(output, dim=1).squeeze(0)
-            confidence, pred_label = torch.max(probs, dim=0)
-            graph.pred_confidence = confidence.item()
-            graph.pred_label = pred_label.item()
-            predicted_graphs.append(graph)
+    # Partition into predicted real or predicted fake
+    real_graphs = [g for g in graph_list if g.pred_label in [0, 1]]
+    fake_graphs = [g for g in graph_list if g.pred_label == 2]
 
-    # 3) Partition into predicted real or predicted fake
-    real_graphs = [g for g in predicted_graphs if g.pred_label in [0, 1]]
-    fake_graphs = [g for g in predicted_graphs if g.pred_label == 2]
     removal_log["predicted"]["real"] = len(real_graphs)
     removal_log["predicted"]["fake"] = len(fake_graphs)
-
     print(f"Initial predicted real graphs count: {len(real_graphs)}")
 
-    # 4) Group predicted real graphs by frameId and remove overlaps
+    # Group predicted real graphs by frameId and remove overlaps
     frames = {}
     for graph in real_graphs:
         frames.setdefault(graph.frameId, []).append(graph)

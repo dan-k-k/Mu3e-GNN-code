@@ -366,3 +366,26 @@ def plot_class_histograms_with_errors(
     plt.legend(loc='upper left', fontsize=11, framealpha=0.5)
     plt.grid(True, linestyle='--', alpha=0.7)
     plt.show()
+
+def compute_purity(y_true, y_probs, thresholds):
+    """Compute purity (precision) at each threshold."""
+    purity = []
+    for thresh in thresholds:
+        y_pred = (y_probs >= thresh).astype(int)
+        TP = np.sum((y_pred == 1) & (y_true == 1))
+        FP = np.sum((y_pred == 1) & (y_true == 0))
+        if TP + FP > 0:
+            purity.append(TP / (TP + FP))
+        else:
+            purity.append(np.nan)
+    return np.array(purity)
+
+def compute_efficiency(y_true, y_probs, thresholds):
+    """Compute efficiency (TPR) at each threshold."""
+    eff = []
+    for t in thresholds:
+        y_pred = (y_probs >= t).astype(int)
+        TP = np.sum((y_pred == 1) & (y_true == 1))
+        FN = np.sum((y_pred == 0) & (y_true == 1))
+        eff.append(TP / (TP + FN) if (TP + FN) > 0 else np.nan)
+    return np.array(eff)

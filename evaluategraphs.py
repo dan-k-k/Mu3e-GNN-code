@@ -19,37 +19,35 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 # def evaluate using a threshold
 # the 'optimal' threshold is calculated from the validation set where the F1 score is maximised ie. the product of purity and efficiency is maximised. 
 # and must not be found for the test set (must be treated as unseen). i have commented out plots as these are shown overlapping later in the GNN notebook.
-def evaluate_for_class(model, data_loader, class_index, dataset_name="Dataset", num_thresholds=1000, fixed_threshold=None):
-    model.eval()
+def evaluate_for_class(data_loader, class_index, dataset_name="Dataset", num_thresholds=1000, fixed_threshold=None):
     y_true = []
     y_probs = []
-    with torch.no_grad():
-        for batch in data_loader:
-            batch = batch.to(device)
-            outputs = model(batch)  # shape: [batch_size, num_classes]
-            # Compute softmax probabilities.
-            probs = F.softmax(outputs, dim=1).cpu().numpy()  # shape: [batch_size, num_classes]
-            # Convert true labels to a binary indicator: 1 if equal to class_index, 0 otherwise.
-            labels = (batch.label.cpu().numpy().astype(int) == class_index).astype(int)
-            y_true.extend(labels)
-            # Extract predicted probability for the class of interest.
-            y_probs.extend(probs[:, class_index])
-    y_true = np.array(y_true)
-    y_probs = np.array(y_probs)
+    for batch in data_loader:
+        # batch.label : LongTensor [B], each ∈ {0,1,2}
+        # batch.probs : FloatTensor [B, num_classes]
+        labels = batch.label.cpu().numpy()          # shape [B]
+        probs  = batch.probs.cpu().numpy()          # shape [B, num_classes]
+
+        # Build binary ground truth for this class:
+        #   1 if this sample’s true label == class_index; else 0.
+        y_true.extend((labels == class_index).astype(int))
+
+        # Take predicted probability for class_index:
+        y_probs.extend(probs[:, class_index])
+
+    y_true = np.array(y_true, dtype=int)     # shape [N_total]
+    y_probs = np.array(y_probs, dtype=float) # shape [N_total]
     
     # Use fixed_threshold if provided; else compute one via precision-recall.
     if fixed_threshold is not None:
         optimal_threshold = fixed_threshold
-        print(f"Using fixed threshold: {optimal_threshold:.4f}")
     else:
         precision_vals, recall_vals, thresholds_pr = precision_recall_curve(y_true, y_probs)
         if len(thresholds_pr) > 0:
             optimal_idx = np.argmax(precision_vals[:-1] * recall_vals[:-1])
             optimal_threshold = thresholds_pr[optimal_idx]
-            print(f"Optimal Threshold for class {class_index} based on {dataset_name}: {optimal_threshold:.4f}")
         else:
             optimal_threshold = 0.5
-            print("No thresholds found; using default threshold: 0.6")
     
     # Compute efficiency (true positive rate) and background rejection rate (BRR) across thresholds.
     sampled_thresholds = np.linspace(0, 1, num_thresholds)
@@ -83,30 +81,27 @@ def evaluate_for_class(model, data_loader, class_index, dataset_name="Dataset", 
     return {"confusion_matrix": cm, "classification_report": cr, "optimal_threshold": optimal_threshold, "sampled_thresholds": sampled_thresholds, "efficiency": efficiency, "brr": brr, "y_true": y_true, "y_probs": y_probs, "y_pred": y_pred_final, "fpr": fpr, "tpr": tpr, "roc_auc": roc_auc_val
     }
 
-def evaluate_combined(model, data_loader, dataset_name="Dataset", fixed_threshold=None, num_thresholds=1000):
-    model.eval()
+def evaluate_combined(data_loader, dataset_name="Dataset", fixed_threshold=None, num_thresholds=1000):
     y_true = []
     y_probs = []
-    with torch.no_grad():
-        for batch in data_loader:
-            batch = batch.to(device)
-            outputs = model(batch)  # shape: [batch_size, 3]
-            probs = F.softmax(outputs, dim=1).cpu().numpy()  # softmax over classes
-            # Aggregate real probability: sum of probabilities for class 0 and class 1
-            aggregated_probs = probs[:, 0] + probs[:, 1]
-            # Ground truth: consider tracks with label 0 or 1 as "real" (1) and label 2 as "fake" (0)
-            true_labels = (batch.label.cpu().numpy() != 2).astype(int)
-            
-            y_true.extend(true_labels)
-            y_probs.extend(aggregated_probs)
+    for batch in data_loader:
+        # batch.label : LongTensor [B], values ∈ {0,1,2}
+        # batch.probs : FloatTensor [B, num_classes]
+        labels = batch.label.cpu().numpy()
+        probs  = batch.probs.cpu().numpy()
+        
+        # Real vs fake ground truth:
+        y_true.extend((labels != 2).astype(int))            # 1 if label 0 or 1, else 0
+        # Aggregate P(real) = P(class0) + P(class1):
+        aggregated = probs[:, 0] + probs[:, 1]
+        y_probs.extend(aggregated)
     
-    y_true = np.array(y_true)
-    y_probs = np.array(y_probs)
+    y_true = np.array(y_true, dtype=int)
+    y_probs = np.array(y_probs, dtype=float)
     
     # Determine the optimal threshold using precision-recall curve if not fixed.
     if fixed_threshold is not None:
         optimal_threshold = fixed_threshold
-        print(f"Using fixed threshold: {optimal_threshold:.4f}")
     else:
         precision_vals, recall_vals, thresholds_pr = precision_recall_curve(y_true, y_probs)
         if len(thresholds_pr) > 0:
@@ -115,9 +110,8 @@ def evaluate_combined(model, data_loader, dataset_name="Dataset", fixed_threshol
             optimal_threshold = thresholds_pr[optimal_idx]
         else:
             optimal_threshold = 0.5  # default fallback threshold
-        print(f"Optimal Threshold for Real vs Fake on {dataset_name}: {optimal_threshold:.4f}")
     
-    # Plotting Efficiency vs. Background Rejection Rate (BRR)
+    # For plotting Efficiency vs. Background Rejection Rate (BRR)
     sampled_thresholds = np.linspace(0, 1, num_thresholds)
     efficiency = np.zeros(num_thresholds)
     brr = np.zeros(num_thresholds)
@@ -154,53 +148,43 @@ def evaluate_combined(model, data_loader, dataset_name="Dataset", fixed_threshol
     }
 
 # or simply find with def argmax, no threshold needed. define combined and individual approach.
-def evaluate_with_argmax_combined(model, data_loader, device):
-    model.eval()
-    y_true = []
-    y_pred = []
-    with torch.no_grad():
-        for batch in data_loader:
-            batch = batch.to(device)
-            outputs = model(batch)  # shape: [batch_size, 3]
-            # Use argmax over the three classes
-            preds = torch.argmax(outputs, dim=1)
-            # Convert predictions into a binary decision:
-            # real if prediction in [0, 1] and fake if prediction == 2.
-            binary_preds = (preds != 2).int()  # real: 1, fake: 0
-            y_pred.extend(binary_preds.cpu().numpy())
-            
-            # Ground truth: same logic, true real if label in [0,1]
-            binary_true = (batch.label != 2).int()
-            y_true.extend(binary_true.cpu().numpy())
-    
-    y_true = np.array(y_true)
-    y_pred = np.array(y_pred)
-    
-    # Now you can compute and print a confusion matrix or classification report:
+def evaluate_with_argmax_combined(data_loader):
+    y_true   = []
+    y_pred   = []
+    for batch in data_loader:
+        labels = batch.label.cpu().numpy()
+        preds  = batch.pred_label.cpu().numpy()
+
+        # Convert to binary:
+        y_true.extend((labels != 2).astype(int)) # any label 0 or 1 becomes 1 (real); 
+        y_pred.extend((preds  != 2).astype(int)) # any label 2 becomes 0 (fake).
+
+    y_true = np.array(y_true, dtype=int)
+    y_pred = np.array(y_pred, dtype=int)
+
     cm = confusion_matrix(y_true, y_pred)
     cr = classification_report(y_true, y_pred, target_names=["Fake", "Real"], zero_division=0, digits=4)
-    
+
     return y_true, y_pred, cm, cr
 
-def evaluate_class_with_argmax(model, data_loader, device, class_index):
-    model.eval()
+def evaluate_class_with_argmax(data_loader, class_index):
     y_true = []
     y_pred = []
-    with torch.no_grad():
-        for batch in data_loader:
-            batch = batch.to(device)
-            outputs = model(batch)  # shape: [batch_size, num_classes]
-            preds = torch.argmax(outputs, dim=1)  # Get the predicted class for each sample
-            
-            # For individual class evaluation, consider the sample "positive" if its label equals class_index.
-            binary_preds = (preds == class_index).int()  # 1 if predicted == class_index, else 0
-            binary_true  = (batch.label == class_index).int()  # 1 if true label == class_index, else 0
-            
-            y_pred.extend(binary_preds.cpu().numpy())
-            y_true.extend(binary_true.cpu().numpy())
+    for batch in data_loader:
+        # batch.label     : LongTensor [batch_size], true class {0,1,2}
+        # batch.pred_label: LongTensor [batch_size], predicted class {0,1,2}
+        labels = batch.label.cpu().numpy()
+        preds  = batch.pred_label.cpu().numpy()
+
+        # Build binary arrays for this class:
+        #    y_true = 1 if true label == class_index, else 0
+        #    y_pred = 1 if pred_label == class_index, else 0
+        # this means that electrons are treated as background when analysing positrons, and vice versa.
+        y_true.extend((labels == class_index).astype(int))
+        y_pred.extend((preds  == class_index).astype(int))
     
-    y_true = np.array(y_true)
-    y_pred = np.array(y_pred)
+    y_true = np.array(y_true, dtype=int)
+    y_pred = np.array(y_pred, dtype=int)
     
     # Compute confusion matrix and classification report.
     cm = confusion_matrix(y_true, y_pred)
@@ -301,22 +285,20 @@ def compute_OR_metrics(original_graphs, survivors, dataset_name):
         'final_accuracy': final_accuracy
     }
 
-def e_separation(graphs, dataset_name, model, device):
-    # Filter for real graphs (labels 0 or 1)
-    real_graphs = [g for g in graphs if g.label.item() in [0, 1]]
-    loader = DataLoader(real_graphs, batch_size=128, exclude_keys=['mc_pid'])
-    
-    model.eval()
+def e_separation(data_loader, dataset_name):
     all_preds = []
     all_labels = []
-    with torch.no_grad():
-        for batch in loader:
-            batch = batch.to(device)
-            outputs = model(batch)
-            preds = torch.argmax(outputs, dim=1).cpu().numpy()
-            labels = batch.label.cpu().numpy()
-            all_preds.extend(preds)
-            all_labels.extend(labels)
+    # Filter for real graphs (labels 0 or 1)
+    for batch in data_loader:
+        labels = batch.label.cpu().numpy()
+        preds  = batch.pred_label.cpu().numpy()
+        mask_real = (labels == 0) | (labels == 1)
+        if np.any(mask_real):
+            all_labels.extend(labels[mask_real])
+            all_preds.extend(preds[mask_real])
+
+    all_labels = np.array(all_labels, dtype=int)
+    all_preds  = np.array(all_preds,  dtype=int)
     
     # Compute confusion matrix and report.
     cm = confusion_matrix(all_labels, all_preds, labels=[0, 1])

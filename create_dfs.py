@@ -4,15 +4,7 @@ import torch.nn.functional as F
 from torch_geometric.data import Batch
 import pandas as pd
 
-def create_df_from_graphs(graph_list, model):
-    # First, run predictions on each graph.
-    for graph in graph_list:
-        batched_graph = Batch.from_data_list([graph]).to(next(model.parameters()).device)
-        output = model(batched_graph)  # shape: [1, num_classes]
-        probs = F.softmax(output, dim=1).squeeze(0)
-        _, pred_label = torch.max(probs, dim=0)
-        graph.pred_label = pred_label.item()
-        graph.pred_confidence = probs[pred_label].item()
+def create_df_from_graphs(graph_list):
 
     data = []
     for graph in graph_list:

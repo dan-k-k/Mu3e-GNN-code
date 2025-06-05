@@ -30,6 +30,10 @@ This repository contains the full implementation of a Graph Neural Network (GNN)
   - Create Pandas DataFrames from deduplicated graphs (with model predictions and all truth/feature information) for analysis.
   - Plot confidence histograms, purity and efficiency vs. truth info and hit-counts per frame.
 
+### Data Availability
+
+The original Mu3e Monte Carlo “.root” files used to build the graphs are **not** included in this repository. 
+
 ## How to run
 
 1. Clone:  

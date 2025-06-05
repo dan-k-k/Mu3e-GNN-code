@@ -74,7 +74,7 @@ Monte Carlo simulations accurately model the expected decay particles' hits left
   />
 </p>
 
-A cheap constraints algorithm for graph generation greatly reduces processing time, essentially focusing on graphs that closest resemble true particle tracks. 
+Graphs are formed by combining hits that follow a detection layer sequence, assuming no track information is known. A cheap constraints algorithm for graph generation greatly reduces processing time, essentially focusing on graphs that closest resemble true particle tracks. 
 
 <p align="center">
   <img

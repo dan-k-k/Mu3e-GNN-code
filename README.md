@@ -53,7 +53,7 @@ The original Mu3e Monte Carlo “.root” files used to build the graphs are **n
    pip install -r requirements.txt
    ```
 
-4. Generate graphs through the `Mu3e_Graph_generation.ipynb` notebook
+4. Generate graphs through the `Mu3e_Graph_Generation.ipynb` notebook
 
 5. Train the model and view results using the `Mu3e_GNN_and_Results.ipynb` notebook
 

@@ -135,3 +135,4 @@ def perform_overlap_removal(graph_list, dataset_name=""):
     final_graphs = final_real_graphs + fake_graphs
 
     return final_graphs, removal_log, removal_confidence_diffs, removed_true_real, removed_true_fake
+

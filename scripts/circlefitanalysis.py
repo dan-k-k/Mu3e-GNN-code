@@ -46,3 +46,4 @@ def recurl_angle(track_hits, tol=0.1):
     # wrap into (-pi,pi]
     dphi = (dphi + np.pi) % (2*np.pi) - np.pi
     return dphi
+

@@ -389,3 +389,4 @@ def compute_efficiency(y_true, y_probs, thresholds):
         FN = np.sum((y_pred == 0) & (y_true == 1))
         eff.append(TP / (TP + FN) if (TP + FN) > 0 else np.nan)
     return np.array(eff)
+

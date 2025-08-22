@@ -84,3 +84,4 @@ def create_df_from_graphs(graph_list):
     df['TN'] = ((df['binary_true'] == 0) & (df['binary_pred'] == 0)).astype(int)
 
     return df
+

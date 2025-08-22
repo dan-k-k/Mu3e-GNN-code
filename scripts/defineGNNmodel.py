@@ -145,3 +145,4 @@ class GINEMultiClass(nn.Module):
         combined = torch.cat([pooled, extra], dim=1)  # → [batch_size, hidden + extra]
 
         return self.fc(combined)
+    

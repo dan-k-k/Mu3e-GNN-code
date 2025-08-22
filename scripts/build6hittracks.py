@@ -604,3 +604,4 @@ def row_constraints(row):
         "radius_diff": radius_diff,
         "pitch_diff":  pitch_diff
     }
+

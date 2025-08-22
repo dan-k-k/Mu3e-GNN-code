@@ -1,0 +1,21 @@
+# environment.yml
+name: mu3e_gnn_env
+channels:
+  - pytorch
+  - pyg
+  - conda-forge
+dependencies:
+  - python=3.9
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=11.8
+  - pyg
+  - pandas
+  - numpy
+  - scikit-learn
+  - uproot
+  - matplotlib
+  - seaborn
+  - tqdm
+

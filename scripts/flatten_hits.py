@@ -199,3 +199,4 @@ def apply_layer_assignment(df):
     df['layer'] = df.apply(assign_layer, axis=1)
     df = df[df['layer'] != '-1'].reset_index(drop=True)
     return df
+

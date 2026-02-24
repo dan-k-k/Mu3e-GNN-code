@@ -390,3 +390,4 @@ def visualise_truth_tracks(frame_id, tracks_df, wireframe_traces):
     
     fig = go.Figure(data=all_traces, layout=layout)
     pyo.plot(fig, filename=f'frame_{frame_id}_reco_tracks_visualization.html')
+

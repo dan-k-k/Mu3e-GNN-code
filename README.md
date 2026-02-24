@@ -11,7 +11,7 @@ The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lept
   />
 </p>
 
-View example truth tracks and reconstructed graphs here: https://dan-k-k.github.io/plotly-mu3e/. Here is a screenshot of the true tracks left by a MC μ⁺ → e⁺ e⁺ e⁻ decay.
+View and interact with Monte Carlo tracks and reconstructed graphs here: https://dan-k-k.github.io/plotly-mu3e/. Here is a screenshot of the true tracks left by a MC μ⁺ → e⁺ e⁺ e⁻ decay.
 
 <p align="center">
   <img

@@ -17,7 +17,7 @@ View example truth tracks and reconstructed graphs here: https://dan-k-k.github.
   <img
     src="images/ExampleFrame.png"
     alt="ExampleFrame"
-    width="73%"
+    width="84%"
   />
 </p>
 

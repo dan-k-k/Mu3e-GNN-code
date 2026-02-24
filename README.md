@@ -11,7 +11,15 @@ The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lept
   />
 </p>
 
-View example truth and GNN-reconstructed tracks here: https://dan-k-k.github.io/plotly-mu3e/.
+View example truth tracks and reconstructed graphs here: https://dan-k-k.github.io/plotly-mu3e/. Here is a screenshot of the true tracks left by a MC μ⁺ → e⁺ e⁺ e⁻ decay.
+
+<p align="center">
+  <img
+    src="images/ExampleFrame.png"
+    alt="ExampleFrame"
+    width="73%"
+  />
+</p>
 
 This repository contains the full implementation of a Graph Neural Network (GNN) model for the Mu3e experiment:
 

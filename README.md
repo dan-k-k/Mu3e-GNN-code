@@ -28,29 +28,6 @@ This repository contains the full implementation of a Graph Neural Network (GNN)
 
 **The original Mu3e Monte Carlo “.root” files used to build the graphs are not included in this repository.**
 
-## How to run
-
-1. Clone:  
-   ```bash
-   git clone https://github.com/dan-k-k/Mu3e-GNN-code.git
-   cd Mu3e-GNN-code
-   ```
-
-2. Create virtual environment:
-   ```
-   python3 -m venv .venv
-   source .venv/bin/activate
-   ```
-
-3. Install requirements:
-   ```
-   pip install -r requirements.txt
-   ```
-
-4. Generate graphs through the `Mu3e_Graph_Generation.ipynb` notebook
-
-5. Train the model and view results using the `Mu3e_GNN_and_Results.ipynb` notebook
-
 ## Report overview:
 
 Monte Carlo simulations accurately model the expected decay particles' hits left in the detector, made up of frames: a period of time long enough to capture all hits from the decay. The Graph Neural Network approach contained in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
@@ -147,3 +124,27 @@ Comparing the full GNN method efficiencies for all datasets with the official st
     width="49%"
   />
 </p>
+
+## How to run
+
+1. Clone:  
+   ```bash
+   git clone https://github.com/dan-k-k/Mu3e-GNN-code.git
+   cd Mu3e-GNN-code
+   ```
+
+2. Create virtual environment:
+   ```
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
+
+3. Install requirements:
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. Generate graphs through the `Mu3e_Graph_Generation.ipynb` notebook
+
+5. Train the model and view results using the `Mu3e_GNN_and_Results.ipynb` notebook
+

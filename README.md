@@ -28,7 +28,7 @@ This repository contains the full implementation of a Graph Neural Network (GNN)
 
 **The original Mu3e Monte Carlo “.root” files used to build the graphs are not included in this repository.**
 
-## Report overview:
+### Report overview:
 
 Monte Carlo simulations accurately model the expected decay particles' hits left in the detector, made up of frames: a period of time long enough to capture all hits from the decay. The Graph Neural Network approach contained in this repository focuses on six-hit tracks that reach the recurl pixel layers. A three-class GNN uses spatial and kinematic information of combinations of hits left in the detector to classify each six-hit graph as an electron, positron, or fake (combinatorial background). Common background decay types are internal conversion μ⁺ → e⁺ e⁺ e⁻ ν<sub>e</sub> ν̄<sub>μ</sub> and Michel μ⁺ → e⁺ ν<sub>e</sub> ν̄<sub>μ</sub>. 
 

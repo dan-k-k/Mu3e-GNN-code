@@ -125,7 +125,7 @@ Comparing the full GNN method efficiencies for all datasets with the official st
   />
 </p>
 
-## How to run
+### How to run
 
 1. Clone:  
    ```bash

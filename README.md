@@ -23,22 +23,8 @@ View and interact with Monte Carlo tracks and reconstructed graphs here: https:/
 
 This repository contains the full implementation of a Graph Neural Network (GNN) model for the Mu3e experiment:
 
-- Implements a six‐hit graph-building procedure with loose geometric and kinematic constraints, pruning away most combinatorial (fake) graphs.
-- Defines and trains a three-class GNN (electron vs. positron vs. fake) using PyTorch Geometric, including custom message-passing layers, batch-norm, pooling, and truth data concatenation.
-
-- Process:
-  - Load Mu3e MC hits and construct node/edge/global features for each six‐hit candidate graph.
-  - Normalise all graph features using global means/σ from the signal set.
-  - Split into train/val/test, early-stopping on validation loss, and save the best model.
-
-- Evaluation:
-  - Compute per-class ROC/AUC, purity, efficiency, and Clopper–Pearson errors.
-  - Deduplicate true (real) graphs due to overlapping Mu3e detection ladders.
-  - Perform greedy overlap-removal (hit-sharing) among predicted real graphs to improve purity at the cost of efficiency.
-
-- Helper scripts:
-  - Create Pandas DataFrames from deduplicated graphs (with model predictions and all truth/feature information) for analysis.
-  - Plot confidence histograms, purity and efficiency vs. truth info and hit-counts per frame.
+- Implements a six‐hit graph-building procedure with loose geometric and kinematic constraints, pruning away 99.9% combinatorial (fake) graphs.
+- Defines and trains a three-class GNN (electron vs. positron vs. fake) using PyTorch Geometric.
 
 ### Data Availability
 

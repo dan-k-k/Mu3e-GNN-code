@@ -1,4 +1,4 @@
-# Graph Neural Networks for Track Finding in Mu3e
+## Graph Neural Networks for Track Finding in Mu3e
 > **Daniel King** > Under the Supervision of Nikolaos Rompotis
 
 The Mu3e experiment at the Paul Scherrer Institute searches for the charged-lepton-flavour-violating decay μ⁺ → e⁺ e⁺ e⁻ (signal) with the goal of excluding branching fractions above 10<sup>−16</sup> at the 90% confidence level. This decay is essentially forbidden by the Standard Model (SM) and any observation would provide evidence of new physics. The experiment faces a loss in the number of observed MC signal decays (i.e. a lowered efficiency) when applying cuts that purify signal detection. An alternative approach involves a Graph Neural Network (GNN) and finds signal and beam efficiencies similar to the official standard reconstruction algorithm. More information on the experiment is available in the [Technical design of the phase I Mu3e experiment](https://arxiv.org/abs/2009.11690) by the Mu3e collaboration.

@@ -26,8 +26,6 @@ This repository contains the full implementation of a Graph Neural Network (GNN)
 - Implements a six‐hit graph-building procedure with loose geometric and kinematic constraints, pruning away 99.9% combinatorial (fake) graphs.
 - Defines and trains a three-class GNN (electron vs. positron vs. fake) using PyTorch Geometric.
 
-### Data Availability
-
 The original Mu3e Monte Carlo “.root” files used to build the graphs are **not** included in this repository. 
 
 ## How to run
